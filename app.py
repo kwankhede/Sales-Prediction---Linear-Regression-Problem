@@ -1,7 +1,7 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 
@@ -13,6 +13,9 @@ X = data[["TV"]]
 y = data["Sales"]
 model = LinearRegression()
 model.fit(X, y)
+
+# Use the 'Agg' backend for Matplotlib
+matplotlib.use('Agg')
 
 # Streamlit app
 st.title("Advertising Analysis")
@@ -29,7 +32,7 @@ predicted_sales = model.predict([[tv_budget]])
 st.write(f"TV Budget: ${tv_budget}")
 st.write(f"Predicted Sales: {predicted_sales[0]:.2f}")
 
-# Create a scatter plot
+# Create a scatter plot using st.pyplot()
 plt.figure(figsize=(8, 6))
 sns.scatterplot(x=data["TV"], y=data["Sales"])
 plt.xlabel("TV Budget ($)")
