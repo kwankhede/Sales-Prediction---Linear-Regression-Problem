@@ -1,21 +1,18 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import matplotlib
+import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 
 # Load the advertising data
-data = pd.read_csv("data/advertising.csv")
+data = pd.read_csv('data/advertising_data.csv')
 
 # Create a linear regression model
-X = data[["TV"]]
-y = data["Sales"]
+X = data[['TV']]
+y = data['Sales']
 model = LinearRegression()
 model.fit(X, y)
-
-# Use the 'Agg' backend for Matplotlib
-matplotlib.use('Agg')
 
 # Streamlit app
 st.title("Advertising Analysis")
@@ -32,5 +29,13 @@ predicted_sales = model.predict([[tv_budget]])
 st.write(f"TV Budget: ${tv_budget}")
 st.write(f"Predicted Sales: {predicted_sales[0]:.2f}")
 
-# Create a line chart using st.line_chart()
-st.line_chart(data[["TV", "Sales"]])
+# Create a scatter plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x=data['TV'], y=data['Sales'])
+plt.xlabel("TV Budget ($)")
+plt.ylabel("Sales")
+plt.title("TV Budget vs. Sales")
+plt.axvline(x=tv_budget, color='r', linestyle='--', label=f'TV Budget: ${tv_budget}')
+plt.legend()
+st.pyplot(plt)
+
